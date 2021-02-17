@@ -1,0 +1,795 @@
+
+Microsoft Azure 
+	- Public Cloud
+	- Subscription is required 
+		- An agreement between customer and microsoft to use the Azure services.
+		- Subscription defines what services the customer can use
+		- How the billing is calculated.
+		- Types:
+			- EA - Enterprise Agreement - Large organizations
+			- Pay-As-You-Go - Individual & SMB 
+			- Free Trail - Free for 30 days or limited free services for 12 months
+	- Data centers
+		- Azure has 58+ data centers across globe.
+		- Data center consists of racks of servers.
+	- Azure Services
+		- Compute services 
+			- Used to deploy applications/Run your code
+			- VM (IaaS), App Service (PaaS), Azure Functions (PaaS), Logic Apps (PaaS), AKS (PaaS)
+		- Network services
+			- Virtual network, Traffic Manager, Load Balancer, Application Gateway, Firewall, VPN Gateway, NSG, IP
+		- Storage services
+			- Azure Storage Account, Azure Disk, Data Lake Store
+		- Database Services
+			- SQLDatabase, SQL ManagedInstance, PostgreSQL, MySQL, CosmosDB
+		- AI & ML
+			- Cognitive Services, ML Studio
+		- Analytics
+			- Log Analytics, Data Factory, Data Bricks 
+	- How to work with Azure?
+		- Azure Portal - Web UI (Browser based UI) - https://portal.azure.com
+		- Azure CLI - Command Line Interface 
+		- PowerShell - Command Line Interface
+		- ARM templates - JSON template file 
+		- Azure SDK - Developers use the libraries to work with Azure services.
+		- REST API - Http request to REST APIs 
+		
+	- Azure Resource Manager (ARM)
+		- Interface between the user and Azure.
+	- Resource and Resource Group
+		- Resource is an instance of a service type. 
+		- Eg: VM1 is and instance of Virtual Machine. mydb is an instance of SQL Database service.
+		- Resource Group is a logical group for a set of resources.
+		- Resources within a group can be different types and deployed in different locations.
+		- 
+		
+Virtual Machine
+	- Compute service - Used to deploy the application and database.
+	- Linux VMs and Windows VMs
+		- Windows Server 2012 DataCenter
+		- Windows Server 2016 DataCenter
+		- Windows Server 2019 DataCenter
+		- Windows Server 2019 DataCenter with Containers
+		- Ubuntu Server 20.04 
+		- Ubuntu Server 18.04
+		- Suse Linux
+		- CentOS 
+		- Red Hat Linux
+	- All OS Images are available in the marketplace.
+	- You can upload your own VM images. 
+	- VM requirements:
+		- Virtual Network
+			- Subnet
+		- Network Interface (NIC)
+		- Public IP
+		- Disk (OS Disk, Data Disk)
+		- Optionally Configure HA solutions:
+			- Availability Set
+			- Availability Zone
+		- Optionally configure Disaster Recovery solutions:
+			- Backup
+			- ASR (Azure Site Replication)
+	- VM Configuration parameters:
+		- VM Name
+		- VM Size
+			- General Purpose VMs (Simple Web Servers and DB Servers)
+			- Compute Optimized (More CPU available) 
+			- Memory Optimized (More memory available)
+			- Storage Optimized (More Storage support available)
+			- GPU enabled (ML apps)
+			- HPA - High performance (Batch processing)			
+		- Location
+			- Location/Data center where the VM need to be created
+		- Resource Group
+			- All VMs must be created inside a RG
+		- OS Type and image
+			- Windows/Linux 
+		- Cost calculation
+			- Compute Cost
+				- Cost for compute resources such as RAM, CPU and IO
+				- Pay only for the hours when VM is running
+				- When VM is shutdown no compute cost involved.
+			- Storage Cost 
+				- Is the cost involved for Storage Disk (OS Disk and Data Disk)
+				- Even VM is in stopped state still you have to pay for it.
+		
+Containers and Docker
+	- Limitations of Hardware virtualization (VMs)
+		- Slow to start
+		- Resource utilization is not optimal
+		- Costly 
+	- Containers
+		- No hardware virtualization (No VMs created)
+		- Containerize the application and its dependencies in one logical box called container.
+		- It is very easy to create.
+		- Small in size.
+		- Faster start time.
+		- Resource utilization is optimal 
+		- Cheaper in cost
+	- Container technologies
+		- Docker, Rkt, LXD, LXC
+	- Container Types:
+		- Linux Containers
+		- Windows Containers
+	- Images vs Containers
+		- Image is the template for creating containers
+		- Containers are the running instances of images (processes)
+	- Docker CLI
+		- docker --version
+			Display the version of docker installed.
+		- docker pull
+			Downloading the image from Docker repository
+		- docker push 
+			Upload the image to Docker repository
+		- docker run 
+			Create and run a docker container
+		- docker stop
+			Stop the running container
+		- docker start 
+			Start the stopped container
+		- docker rm
+			Remove the container 
+		- docker rmi
+			remove the docker image
+		- docker images
+			List the images in local machine
+		- docker ps
+			List the running containers
+		- docker build
+			For creating a docker image 
+			
+	- Docker Registry
+		- It is the storage location of docker images.
+		- Types:
+			- Local :Our local machine
+			- Cloud: Stored in remote cloud machines (accessing then using internet)
+				- Public - Open for all, anonymous users can view and download , eg: Docker Hub
+				- Private - Secure and no anonymous access. eg: ACR (Azure Container Registry)
+	- Dockerfile
+		- A text file that contains the instructions to build the docker image.
+		- It contains the commands such as :
+			FROM 
+				- Used to specify the base image
+				FROM <imagename:version>
+				eg: FROM nginx:latest				
+			WORKDIR
+				- Set the current working dir in Docker image.
+				WORKDIR C:\myapp
+				WORKDIR /home/user1/app
+			COPY
+				- Used to copy files from source to target.
+				- COPY ./ ./
+			RUN 
+				- Execute commands at build time 
+				RUN echo "building app"
+			CMD
+				- Execute commands at the time of creating the container (running the app)
+			ENTRYPOINT
+				- Execute commands at the time of creating the container (running the app)
+			ENV
+				- Set the environment variable in docker image.
+				- ENV ConnectionString="Host=SQLEXpress;Username=sa;Password=Pass@123"
+			EXPOSE
+				- Expose the port numbers which needs to be open for connection.
+				- EXPOSE 80, 443
+				
+Azure Container Registry (ACR)
+	- Private registry for docker images
+	- CLI: az acr create 
+	- Also can create using portal
+			
+Azure App Service
+	- Compute service for deploying web apps.
+	- It supports docker container apps and code deployment.
+	- It is a PaaS service 
+	- Domain name: https://<appname>.azurewebsites.net 
+	- Supports multiple frameworks and languages: .NET, Java, PHP, Ruby, Python, NodeJS
+	- App Service Plan
+		- Is defining the size of the compute and pricing
+		- Plans:
+			- Free - No Autoscaling, No LB, No dedicated compute, no custom domain mapping
+			- Shared - No dedicated machine, Custom domain mapping supported, not free 
+			- Basic - Dedicated compute, Manual scaling upto 3 instances.
+			- Standard - Production ready, Support manual scaling and autoscaling upto 10 instances. 5 Deployment slots
+			- Premium - 20 deployment slots, 20 instances support. 
+	- Deployment slots
+		- Can create multiple deployment slots for testing, staging and QA
+		- Swap the contents between slots
+		- Reduce the downtime while deployment.
+		- Easily rollback to previous versions.
+		- Test new versions without disturbing the production.
+	Scaling
+		- the process of increasing the capacity of an instance or increasing the number of instances.
+		- Horizontal scaling (Scale out)
+			- Manual scaling
+			- Auto scaling
+				- Scale the number of machines based on a condition.
+				- Condition can be configured based on metrics such as CPU utilization, memory utilization, No of  request in the queue etc.
+		- Vertical Scaling (Scale up)
+		
+Storage Account
+	- Application uses different type of data
+		- Strcutured Data - Relational Data - SQL Server, Oracle, MySQL, PostgreSQL
+		- Unstructured data- images, videos, audio, text files, document, pdf (blob - Binary large object)
+		- Semi-structured data - (NoSQL) - MongoDB, DocumentDb, Graph, Cassandra, Redis...
+	- Storage account
+		- PaaS service. It is a storage service.
+		- storage account name must be unique. it contains only lowercase letters and numbers. 
+		- Storage Account provides 4 types of data storage.
+			- Blob service
+				- Used for storing blob files such as images, videos , audio and other docs
+				- All files are stored inside a logical folder called container.
+				- You can access the files individually using http URL. eg. if you have a file 'nature.jpg' in 'images' container then you can access the file using the url 'https://<storageaccountname>.blob.core.windows.net/images/nature.jpg'.
+				- We can set access policies for the blobs. Policy names: Private, Blob and Container
+			- FileShare
+				- Also used to store unstructured files in azure.
+				- It can be mounted as a network drive in your machine.
+				- It support SMB 3.0 protocol.
+			- Queue
+				- Http based queue service.
+				- Sender application can send text messages to the Queue and receiver application can read messages from queue.		
+				- One message max size is 64Kb
+				- Max TTL for queue message is 7 days.
+			- Table 
+				- It is a NoSQL semi-structured key-value pair data storage.
+				- Used like a database.
+		- Used to store large volume of data 
+			- max storage capacity of storage account is 500Tb.
+		- It supports Standard and Premium storage.
+			- Standard - Normal magnetic HDD (low IOPS)
+			- Premium - High performace SSD (high IOPS)
+		- Replication option is used for HA/DR
+			- LRS - Locally Redundant Storage
+			- ZRS - Zone Redundant Storage
+			- GRS - Geo-Redundant Storage
+			- RA-GRS - Read Access-Geo-Redundant Storage
+			- GZRS - Geo-Zone Redundant Storage
+			- RA-GZRS - Read Access-Geo Zone Redundant Storage			
+		- Storage Kind
+			- Storage V1 (General Purpose V1) - Support all 4 types of storage (No zone support)
+			- Blob Storage (Support only blob storage) (No Premium support)
+			- Storage V2(General Purpose V2) - New and improved API (4 types, Standard and Premium storage, Zone support)
+		- Blob access tier
+			- Hot - Frequently accessed files. (high read/write performance) - cost is high
+			- Cool - Infrequently accessed files (less read/write performance) - cost is low
+			- Archive - Rarely accessed data. (very low cost). (read/write performance is poor)
+		
+	- Shared Access Signature (SAS) tokens
+		- Is a token that gives limitted permissions to users for accessing the files.
+		- If you share the access keys then you will be sharing the admin access (full access). that is not recommended.
+		
+Azure functions
+	- PaaS service.
+	- Serverless service- No compute is allocated prior. Compute resources are allocated when the request is received.
+	- Are used to execute a piece of code (functions) written in any language.
+		- Languages supported: C#, JavaScript, Java, Python, PowerShell, Bash Script
+		- A function is peforming a single task.
+			eg: Send mail notification to user.
+				  Copy files from one blob container to another.
+				  Apply watermark to image.
+				  Convert the doc to pdf.
+				  Update the order status of e-commerce app.
+	- They are executed based on a trigger.
+	- Function can have trigger and bindings
+		- Bindings are the input or output service connection to the function.
+		
+	- Trigger types:
+		- HttpTrigger
+		- TimerTrigger
+		- BlobTrigger
+		- QueueTrigger
+		-EventGridTrigger	
+	- Azure Function App
+		- Function App is a collection of functions
+	- Hosting models
+		- Consumption plan
+			- It is purely serverless. 
+			- Price is calculated based on the number of executions * duration
+			- Scale automatically to infinite number of vms
+			- Default timeout for a request is 5mts and max timeout is 10mts
+		- App Service plan
+			- Absolutely free.
+			- Use the existing app service plan machine for functions also.
+			- Scaling conditions must be configured in the app service plan.
+			- No time restriction in app plan
+		- Premium plan
+			- Using some higher networking features for security
+			- Premium infrastructure is used.
+			- Costlier than other plans.
+			
+	- Locally developed function
+		- S/W required.
+			- Azure CLI
+			- NodeJS
+			- Azure Function Core Tools
+			- VS Code
+		- Open command prompt and create a new function app.
+			func init
+				- This will ask the runtime - Nodejs, .net , java, python
+		- Create a new function inside the function app
+			func new
+				- Select the trigger type 
+				- Specify the name of the function
+		- Edit the code and test in VS code. To run the function locally.
+			func start.
+				- update the local.settings.json -> AzureWebJobsStorage="Storage account connection string"
+		- Publish to Azure function app
+			func azure functionapp publish <name-of-function-app> -y
+		
+Azure Logic App
+	- PaaS
+	- Serverless.
+	- Executed with triggers- HttpTrigger, BlobTrigger, TimerTrigger etc.
+	- For connecting other services we have Connectors (similar to bindings).
+		- Connect to Azure Services - Blob , CosmosDB, Service Bus Queue, Storage Queue etc
+		- Connect to External SaaS services - Facebook, Twitter, Gmail, DropBox, OneDrive etc
+		- Connect to On-premise enterprise integration services. (eg: Biztalk)
+	- No explicit coding required. It automatically writes the code in JSON format.
+	- Used to create long running workflows.(Multi-step operations)
+	- Visual Designer (Logic App Designer) - Drag and drop the trigger and actions.
+	- Demo:
+		Create a workflows for Order approval system. When customer places an order reqeust checks the payment status. If status is "completed" then send an approval mail to customer. Else send a rejection mail to customer.
+	- Biztalk integrations are supported in Logic App with the help of integration Account.
+		
+		
+Azure relational database services
+	- Relational databases.
+		- SQL Server
+			- SQL Database with Logical Server (PaaS)
+			- SQL Managed Instance (PaaS)
+			- SQL Server VMs (IaaS)
+		- PostgreSQL 
+			- Azure Database for PostgreSQL
+		- MySQL
+			- Azure Database for MySQL
+		- MariaDB
+			- Azure Database for MariaDB
+		
+	SQL Database
+		- PaaS service 
+		- Provide a logical server (TDS endpoint)- No physical server available.
+		- Limitations
+			- sa user is not accessible to users. they can create secondary admins.
+			- Max storage capacity is 4TB
+			- Windows authentication not supported.
+			- Cross database queries, SQL Agent services, CLR programing are not supported.
+		- Pricing models:
+			- DTU based pricing (old approach) - Compute and storage is allocated based on the DTU value.
+				- Basic  - 5DTU (Dev/Test)
+				- Standard (S1, S2, S3 ...)
+				- Premium (P1, P2...)
+			- vCore based - (new and recommended) - Compute and storage independently.
+				- General Purpose 
+				- Hyperscale
+				- Business Critical
+		- Disaster Recovery options:
+			- Point-in-time restore
+				- Restore from the backups.
+				- Restore the database back to a restore point.
+				- Minimum 7 days max 35 days
+			- Geo-replication
+				- Replicate database to one or more regions
+				- When primary fails secondary will be promoted as primary.
+			- LTR - Long term retension
+				- Configure weekly backup, monthly backup, yearly backup upto 10 years.
+				- Configure in the Logical Server
+		
+	Azure Database for PostgreSQL/MySQL
+		- Pricing options
+			- Basic (Dev/Test)
+				- 2vCore 
+				- LRS only
+				- Storage upto 1Tb
+			- General Purpose
+				- 2-64 vCore
+				- LRS and GRS
+				- Storage upto 16Tb
+			- Memory Optimized
+				- 2-32 vCore 
+				- LRS and GRS
+				- Storage upto 16Tb
+		- Backup retension is 7-35 days
+		
+Redis
+	- Linux based , open-source, NoSQL, key-value pair database.
+	- key=value format , eg: name=Sonu, location=Mumbai, salary=1000, scores = [10,34,25,54]
+	- Database service , but mostly used for temporary storage purposes . ie: cache storage.
+	- Azure Cache for Redis is a cloud cloud implementation of the Linux based Redis database.
+	- Pricing models:
+		- Basic
+			- Dev/Test
+			- No SLA
+			- Single Node 
+		- Standard
+			- Production purpose.
+			- HA SLA
+			- Primary/secondary nodes available for HA
+		- Premium
+			- Production purpose.
+			- HA SLA
+			- multiple nodes available for HA
+			- Advanced networking 
+			- Data persistance.
+		
+CosmosDB
+	- NoSQL databases
+		- Document type
+			- Storing the data in the form of JSON documents.
+			- MongoDB, CouchDB, DynamoDB, DocumentDB etc 
+		- Key-Value pair storage
+			- Every key there is a value exists. eg: Key=value
+			- Redis, Azure Storage Table etc
+		- Column family storage
+			- Cassandra is an example 
+		- Graph storage
+			- Data is stored in the form of edges and vertices.
+			- Gremlin, Neo4j etc
+	- CosmosDB database is a multi-model database
+	- It supports multiple database engines - MongoDB, SQL API (DocumentDB), Azure Table API, Cassandra , Gremlin
+	- It uses SSD to store the data - So it is faster and provides less latency.
+		- All read operations completes within 10ms
+		- All write operations completes within 15ms
+	- Highly scalable, Geo-replicated, Built-in security, Disaster recovery, backup etc.
+	- It supports 5 different consistency models - Eventual, Consistent Prefix, Session, Bounded Staleness, Strong.
+		
+Service Bus
+	- It is a Queue service on Azure.
+	- Queus in Azure:
+		- Azure Storage Queue:
+			- Storage queue is part of storage account service.
+			- It is an http based queue service. It uses HTTP protocol and methods for adding and reading messages.
+			- Messages are sent and received in plain text format(no encryption).
+			- Max TTL for a message is 7 days.
+			- One message max size is 64Kb.
+			- No FIFO order guarantee
+		- Azure Service Bus Queue:
+			- It is a separate service used for enterprise application integration using messages.
+			- It is AMQP protocol based.
+			- Messages are sent in binary encrypted format. Only sender and receiver apps can read it. 
+			- Max TTL is 14 days.
+			- One message max size is 256Kb.
+			- Expired messages can be moved to Dead letter queue.
+			- FIFO order maintained.
+			- Message corelation supported.
+	- Service Bus Queues and Topics:
+		- Queue is a simple service where sender can send message and a single receiver can read a message.
+		- Topic: Multiple subscribers can receive same message. A copy of the message is delivered to each receiver application.
+		
+Event Grid:
+	- Event based communication is another type of app-to-app communication that happens in real time.
+	- Message based communication is not real time but event based communication is real time.
+	- If any listeners are registered to the event then it will execute the listener otherwise skip it.
+	- Event Grid is an Azure PaaS service for routing the events fired by azure services and other applications.
+	- Event Grid is a fully managed event ingestion system which routes the events to the event handler services.
+	- Key components:
+		- Event Producers(Publishers/Sources) - Who produce the event 
+		- Event Consumer(Subscriber/Handlers) - Who consumes the event data
+		- Topic - Connection between producer and event grid
+		- Subscription - Connection between event grid and subscriber
+		- Event - The data which is sent by the producer.
+		
+Key Vault
+	- Is a storage which can store encryption keys, secrets and passwords safely in azure.
+	- Data in Azure is always encrypted. For encryption it uses a key. the key is by default provided by Azure.
+		- Microsoft provided key/Platform managed key/Azure managed key.
+		- Customer managed key. (Key is created and maintained by Customer)
+			- Such customer managed keys can be stored in Key vault.
+	- VM passwords/Database passwords can be stored in the Key vault.
+	- Also used for storing SSL/TLS certificates.
+
+AKS - Azure Kubernetes Service.
+	- Kubernetes is an cluster orchestrator service.
+	- K8S is an orchestrator for docker containerized applications.
+	- K8S first introduced by Google. They published it as open-source product.
+	- When it became open-source other cloud vendors like microsoft and AWS adopted it and created their own copy of Kubernetes
+	- Microsoft version of Kubernetes service is called AKS. AWS version is called EKS (Elastic Kubernetes Service).
+	- Other orchestrators available for Docker apps are Docker Swarm and DC/OS.
+	- K8S is the most popular orchestrator.
+	- AKS is a managed Cluster - The master is created and managed by Azure.
+	- User need to pay only for Worker machines.
+	- Kubernetes Terminologies:
+		- Master: 
+			- Master VM is responsible to manage and monitor the cluster
+			- There are some admin services running in master: api-server, controller-manager, storage service (etcd), scheduler.
+			- API-SERVER is the only service that is accessible to user. It provides and endpoint to connect to the cluster.
+		- Node:
+			- Node is the worker machine.
+			- For production minimum 3 node is recommended.
+			- Only the nodes are running docker applications. 
+		- Pod:
+			- Pod is the building block of k8s apps.
+			- Containers are running inside the pods.
+			- Multiple pods can run inside a single node. 
+		- kubectl.exe
+			- It is a client tool used to connect to the master and execute instructions in master.
+			- Cli tool for client.
+		- Deployment manifest file.
+			- It is a YAML/JSON file used to deploy applications inside the cluster.
+			- We can send the YAML files using kubectl to master.
+		- Deployments:
+			- Deployment of pods and replica set is called deployment.
+		- Service (Networking service):
+			- It is a load balancer service that allows connecting to the applications.
+	
+	Scaling Pods
+		- Manual Scaling
+		- Auto scaling
+			- create a HPA (Horizontal Pod Scaling) using command
+				kubectl autoscale deployment azure-vote-front --cpu-percent=50 --min=3 --max=10
+			- Create a HPA using YAML file.
+			
+
+API Management Service
+	- REST API
+		- Http method: GET, POST, PUT, DELETE, PATCH
+		- URL: endpoint (address) for accessing the service
+		- Http Headers: Content-Type, Accept, Content-Length, Authorization
+		- eg: Calculator
+			- Add 	
+				- http://localhost:8080/api/calculator/add 
+			- Subtract
+				- http://localhost:8080/api/calculator/subtract
+			- Divide
+				- http://localhost:8080/api/calculator/divide
+			- Multiply
+				- http://localhost:8080/api/calculator/multiply
+		- Employee service:
+			- Get all employees
+				- GET http://localhost:8080/api/employees -> GetEmployees() in EmployeesController
+			- Get a single employee by id
+				- GET http://localhost:8080/api/employees/{id}
+			- Add an employee
+				- POST http://localhost:8080/api/employees -> AddEmployee(Employee data) in EmployeeController
+			- Delete an employee
+				- DELETE http://localhost:8080/api/employees/{id}  -> RemoveEmployee(int id) 
+			- Update and employee data
+				- PUT http://localhost:8080/api/employees/{id}
+				
+	- Limitations of current API system.
+		- Request limitting not possible. (Set a limit for the number of requests allowed per user for a minute)
+		- XML to JSON convertion or JSON to XML convertion required
+		- Implementing authentication after deploying the API.
+		- Update the response text - Replace one text with another text
+		- Implement caching without modifying the code is difficult.
+		
+	- Azure API Management Service is an API Gateway service.
+	- APIM has the following components:
+		- Publisher Portal (Azure Portal)
+		- Developer Portal
+		- Gateway - the component that recives the request from user and connect to backend service.
+		- Products - A collection of APIs, Users are subscribing to products. Use will get a subscription key
+		- APIs - A collection of operations
+		- Operations - A single API task
+		- Subscriptions and Keys - User subscribe to products and he will get a key which can be used for authentication while making a request.
+		- Policies- Are set of rules configured in the gateway for managing the API.
+	- Versions and Revisions
+		- Version - New application with breaking changes.
+		- Revision - If non-breaking changes are implemented that doesnot requires changes in the client app code.
+		
+		
+Azure Active Directory
+	- Is an identity service. 
+	- Active Directory types:
+		- Windows Active Directory
+			- Used in On-premise windows servers
+			- Organization employees login details, device authentication details are stored.
+		- Azure Active Directory
+			- Cloud based active directory.
+			- We can store users, applications, devices informations in Active directory.
+			- We can enable authentication for services and applications using AD users.
+			- When a user creates an Azure account, a default active directory is created for him.
+			- A tenent is an instance of Active Directory service.
+				- Every tenent has and Id and a DNS name.
+				- Id is a GUID
+				- Tenent name is a domain name like 'accountname.onmicrosoft.com.'
+					eg: sonusathyadashotmail.onmicrosoft.com
+	- Create users in AAD
+	- Create groupds in AAD
+	- Assign AD roles (eg:Global Administrator) to users
+	- Remove AD roles from user.
+	- RBAC can be used to assign azure roles to the user.
+		- Role Based Access Control.
+		- Secure way of giving access to users on Azure resources.
+		- Provide resource level permission or resource group level permissions.
+			- Provide access on restricted way by assigning roles - reader, VM contributer, Owner
+    - MFA-Multi-Factor Authentication
+        - Typical authentication mechanism is username + password.
+        - Additional authentication mechanisms are also required.
+            - Biometrics
+            - Email code
+            - SMS code
+        - Who you are (username + password)
+        - What you have(Biometrics/SMS/Email)
+        - What you access (Roles/Permissions)
+    - Azure AD pricing
+        - Azure AD Free
+        - Azure AD Premium 
+            - Premium P1
+            - Premium P2
+    - Azure AD Identity Protection
+        - Its a set of tools used to identify and remediate the security risks using some Machine learning algorithms or partner products.
+            - Detect the risks
+            - Prevent risks
+            - remediate 
+        - Identity protection policies:
+            - User risk policy
+                - If the identities are compromised then allow/block access.
+                - Azure AD Premium P2 is required.
+            - Sign-in risk policy
+                - Login attempt from various regions within a short period.            
+                - Azure AD Premium P2 is required.
+            - MFA registration policy
+                - If AAD identifies the login attempt is unfamiliar or its is not from trusted IP then it will ask for MFA.
+                - Azure AD Premium P2 is required.
+                
+Application Gateway
+    - Is a type of Load balancer
+    - Used only for Web applications 
+    - Works on Layer 7 of OSI model (Layer 7 LB)
+    - Works only with HTTP/HTTPS protocols
+    - Features:
+        - Built-in Web Application Firewall (WAF) to detect and prevent security vulnerabilities.
+        - Path based routing 
+        - SSL termination 
+        - Connection Draining
+        - Custom error pages
+        - Redirection 
+    - Components:
+        - Listner : listening to the http requests
+        - WAF : Detect and prevent the request (Optional)
+        - LB Rule: Based on what condition the LB happens.
+        - Http Settings
+    - Pricing tiers:
+        - Standard (AppGW without WAF)
+        - Standard V2 (AppGw without WAF - Version 2)
+        - WAF (AppGW with WAF)
+        - WAF V2 (AppGW with WAF Version 2)
+        
+Traffic Manager
+    - Gloabl Load Balancer
+    - Routing configurations
+    - Load balance across multiple regions
+    - TM route the request to an instance located in various regions based on a routing policy
+        - performance (Latency based)
+        - Priority based 
+        - Weightage based
+        - Geography based
+    
+Azure Monitor
+    - Its a monitoring service offered by Azure for various services.
+    - Azure Monitor is able to collect data from 
+        - Application
+        - Operating Systems
+        - Azure resources
+        - Azure Subscription
+        - Azure AD Tenant
+        - Custom soruces
+    - The data which is collected can be Metric or Log
+        - Metric: the numeric data which is collected is called metric.
+            - CPU utilization
+            - Memory utilization
+            - Disk utilization
+            - No of request in queue
+            - No of Read/Write operations
+            - Represent them in the format of Graph/Chart.
+        - Log: A unstructured text data in JSON/XML format
+            - Event Log
+            - Activity Log
+            - IIS Log
+            - Dignostics Log
+    - Application Insights
+        - Is a monitoring tool for web, storage, functions etc.
+        - You can enable AI while creating the service or after creation.
+        - App Insights collects the telemetry from the web apps, functions, storage accounts etc.
+        - It can visualize it in the form of graph and chart.
+        - It can collect the performance couter data from the application running on Azure or om-premise or other cloud.
+        - Application uses and Instrumentation key to connect the AI.
+        - Live metrics to view the live telemetry of the app such as incoming requests, outgoing responses and server errors
+        - Application Map is used to view and diagnose the dependencies of the app such as storage, sql db, cosmosdb, event hub etc.
+        - Availability test : Url ping test allow us to test the Availability of the app from various regions.
+        
+Communication methods for apps
+    - Http Based
+        - Request-Response pattern
+        - Sender and receiver must be online
+        - By default synchronous 
+        - Response is mandatory for every request
+        - One-to-one communication
+        - Real-time communication
+    - Message Based
+        - Uses a publish-subscribe pattern
+        - One app send message to a queue and second app receive it later
+        - Sender and receiver may not be online at same time.
+        - Not real-time communication.
+        - One-to-many communication supported.
+        - Asynchronous by default.
+    - Event based
+        - Publish-subscribe (Observer pattern) 
+        - One-to-may communication
+        - Real-time communication
+        - No response required
+        - Asynchronous by default.
+        
+https://github.com/sonusathyadas/EventGrid-Samples
+
+Message Driven Applications
+    - Azure Service Bus
+        - AMQP protocol based. (Advanced Message Queueing protocol).
+        - One messsage size upto 256Kb
+        - Max TTL is 14 Days
+        - Ensure FIFO ordering
+        - Encrypt the message in binary
+        - Duplicate detection support
+        - Dead-letter queue support
+        - Used in enterprise Applications
+        - Complex to implement comapred to Storage queue.        
+    - Azure Storage Account Queue
+        - Http based queueing system 
+        - All operations of queue is performed using Http APis (Enqueue, Dequeue, Clearqueue, Peekqueue)
+        - One message max capacity is 64Kb
+        - One message max TTL (Time to Live) is 7 days.
+        - Store the message as plain text (no message encryption)
+        - No FIFO guarantee
+        - No Duplicate detection 
+        - No Dead-letter queue.
+        - Simple to implement 
+        - Used for simple app message systems
+    - Service Bus Service Types
+        - Queues
+            - Message is added to a queue which can be consumed by any subscriber.
+            - Only one subscriber is able to receive the message.
+        - Topics
+            - Deliver same message to one or more subscribed who had subscribed for the interested type of messages.
+            - Deliver message to more than one subscribers
+            - In topic we can create subscription filters
+                - $Default filter - This is by default exist in topic. This deliver all messages. Remove default filter and add custom filters
+                - Custom filters:
+                    - Boolean Filter : Set a boolean condition
+                    - SQL Filter : Set an SQL query condition (a subtype of Boolean filter)
+                    - Correlation filter: Correlation ID is used to deliver messages.
+            
+Event Based services
+    - Event Grid
+        - Fully managed Azure Service.User need not to create event grid. 
+        - Event Grid is already integrated with many Azure services such as Storage Account, Resource Group, Subscriptions, App Service, CosmosDB etc.
+        - When ever some event (action) occurs in the service it sends a Notification event to the event grid and the event grid forwards that event data to associated subscribers.
+        - Publishers: Storage Account, Resource Group, Subscriptions, App Service, CosmosDB, Custom events using Custom Topic
+        - Subscribers: Azure Function, Logic App, Event Hub, Service Bus Queue, Custom App
+    - Event Hub
+        - Handles millions of events data at same time.
+        - Support upto 32 partitions
+        - Multiple subscribers can process the data in real-time (Function, PowerBi)
+        - If you want to store event data for future processing then use capture method (store events data to storage account).
+        - it support Apache Kafka protocol, so you can use Event hub as a Kafka cluster.
+    - Notification Hub (Mobile Apps)
+        - Mobile Apps notifications.
+        - Used to send platform specific notifications.
+        - Used for sending push notifications.
+        - Offline messaging.
+    
+CDN - Content Delivery Networks
+    - 
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
